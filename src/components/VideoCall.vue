@@ -1,23 +1,16 @@
 <template>
   <div>
-    <LocalVideo></LocalVideo>
-    <RemoteVideo></RemoteVideo>
+    <video ref="local" autoplay playsinline></video>
+    <video ref="remote" autoplay playsinline></video>
     <button @click="call">Call</button>
     <p>{{ statusMessage }}</p>
   </div>
 </template>
 
 <script>
-import { initializeWebSocket, sendOffer } from './signaling/signaling';
-import { createPeerConnection, startLocalVideo } from './signaling/webRTC';
-import LocalVideo from './LocalVideo.vue';
-import RemoteVideo from './RemoteVideo.vue';
+import { createPeerConnection, startLocalVideo, initializeWebSocket, sendOffer } from '@utils/WebRTC';
 
 export default {
-  components: {
-    LocalVideo,
-    RemoteVideo,
-  },
   data() {
     return {
       localStream: null,
@@ -45,7 +38,9 @@ export default {
         this.statusMessage = 'Not connected to WebSocket server';
         return;
       }
+
       this.createPeerConnection();
+      //handleAnswer event 등록
       const offer = await this.peerConnection.createOffer();
       await this.peerConnection.setLocalDescription(offer);
       if (this.isConnected) {
@@ -66,3 +61,4 @@ video {
   margin: 10px;
 }
 </style>
+../utils/signaling
