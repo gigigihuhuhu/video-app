@@ -1,7 +1,7 @@
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 
-export function initializeWebSocket(context) {
+export function initializeWebSocket(context) { // 변경필요, STOMP 파악필요
   const socket = new SockJS('http://localhost:8080/ws', null, { withCredentials: false });
   context.stompClient = new Client({
     webSocketFactory: () => socket,
@@ -11,9 +11,8 @@ export function initializeWebSocket(context) {
     onConnect: () => {
       context.isConnected = true;
       context.statusMessage = 'Connected to WebSocket server';
-      context.stompClient.subscribe('/topic/offer', (message) => handleOffer(context, message));
+      context.stompClient.subscribe('/topic/offer', (message) => {console.log(message); handleOffer(context, message)});
       context.stompClient.subscribe('/topic/answer', (message) => handleAnswer(context, message));
-      context.stompClient.subscribe('/topic/candidate', (message) => handleCandidate(context, message));
     },
     onDisconnect: () => {
       context.isConnected = false;
@@ -32,25 +31,21 @@ export function sendOffer(stompClient, offer) {
   stompClient.publish({ destination: '/app/offer', body: JSON.stringify(offer) });
 }
 
+export function sendAnswer(stompClient, answer) {
+  stompClient.publish({ destination: '/app/answer', body: JSON.stringify(answer) });
+}
+
 export function handleOffer(context, message) {
   try {
     const offer = JSON.parse(message.body);
-    if (!context.peerConnection) {
-      context.createPeerConnection();
-    }
     context.peerConnection.setRemoteDescription(new RTCSessionDescription(offer)).then(async () => {
       const answer = await context.peerConnection.createAnswer();
       await context.peerConnection.setLocalDescription(answer);
       if (context.isConnected) {
-        context.stompClient.publish({ destination: '/app/answer', body: JSON.stringify(answer) });
+        sendAnswer(context.stompClient, answer);
         context.statusMessage = 'Received offer and sent answer';
       } else {
         context.statusMessage = 'Error: WebSocket connection is not established';
-      }
-      // Add queued ICE candidates
-      while (context.iceCandidateQueue.length > 0) {
-        const candidate = context.iceCandidateQueue.shift();
-        await context.peerConnection.addIceCandidate(candidate);
       }
     });
   } catch (error) {
@@ -65,11 +60,6 @@ export function handleAnswer(context, message) {
     if (context.peerConnection.signalingState === 'have-local-offer') {
       context.peerConnection.setRemoteDescription(new RTCSessionDescription(answer)).then(async () => {
         context.statusMessage = 'Call established';
-        // Add queued ICE candidates
-        while (context.iceCandidateQueue.length > 0) {
-          const candidate = context.iceCandidateQueue.shift();
-          await context.peerConnection.addIceCandidate(candidate);
-        }
       });
     } else {
       console.error('Failed to handle answer: Incorrect signaling state', context.peerConnection.signalingState);
@@ -81,19 +71,34 @@ export function handleAnswer(context, message) {
   }
 }
 
-export function handleCandidate(context, message) {
-  try {
-    const candidate = new RTCIceCandidate(JSON.parse(message.body).candidate);
-    if (context.peerConnection.remoteDescription) {
-      context.peerConnection.addIceCandidate(candidate);
-      context.statusMessage = 'Received ICE candidate';
-    } else {
-      // Queue the candidate if remote description is not yet set
-      context.iceCandidateQueue.push(candidate);
-      context.statusMessage = 'Queued ICE candidate';
-    }
-  } catch (error) {
-    console.error('Failed to handle candidate:', error);
-    context.statusMessage = 'Error handling candidate';
-  }
+export function createPeerConnection(context) {
+  context.peerConnection = new RTCPeerConnection({
+    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
+  });
+
+  // context.peerConnection.onicecandidate = event => {
+  //   if (event.candidate && context.isConnected) {
+  //     context.stompClient.publish({ destination: '/app/candidate', body: JSON.stringify({ candidate: event.candidate }) });
+  //   }
+  // };
+
+  // context.peerConnection.ontrack = event => {
+  //   if (context.remoteVideoRef) {
+  //     context.remoteVideoRef.srcObject = event.streams[0];
+  //   }
+  // };
+
+  // context.localStream.getTracks().forEach(track => {
+  //   context.peerConnection.addTrack(track, context.localStream);
+  // });
+}
+
+export function startLocalVideo(context) {
+  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    .then(stream => {
+      context.localStream = stream;
+      if (context.$refs.local) {
+        context.$refs.local.srcObject = stream;
+      }
+    });
 }
