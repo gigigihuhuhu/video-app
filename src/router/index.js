@@ -9,9 +9,10 @@ const routes = [
     component: Home,
   },
   {
-    path: '/video-call',
+    path: '/video-call/:nickname',
     name: 'VideoCall',
     component: VideoCall,
+    props: true
   },
 ];
 
