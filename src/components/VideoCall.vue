@@ -41,17 +41,11 @@ export default {
       isEstablished: false
     };
   },
-  mounted() {
+  async mounted() {
     startLocalVideo(this);
-    this.initializeWebSocket();
+    initializeWebSocket(this);
   },
   methods: {
-    initializeWebSocket() {
-      initializeWebSocket(this);
-    },
-    createPeerConnection() {
-      createPeerConnection(this);
-    },
     getClientId() {
       return this.nickname
     },
@@ -64,7 +58,8 @@ export default {
         return;
       }
 
-      this.createPeerConnection();
+      await createPeerConnection(this);
+
       const offer = await this.peerConnection.createOffer();
       await this.peerConnection.setLocalDescription(offer);
       if (this.isConnected) {

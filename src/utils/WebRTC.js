@@ -52,6 +52,7 @@ export function sendAnswer(stompClient, answer, clientId) {
     type: answer.type,
     clientId: clientId, // Include the unique client ID
   };
+  console.log("send answer ", answerWithClientId)
   stompClient.publish({
     destination: "/app/answer",
     body: JSON.stringify(answerWithClientId),
@@ -70,47 +71,53 @@ export function sendCandidate(stompClient, candidate, clientId) {
   });
 }
 
-export function handleOffer(context, message) {
+export async function handleOffer(context, message) {
   try {
     const offer = JSON.parse(message.body);
     if (offer.clientId === context.getClientId()) {
       return;
     }
+    console.log("revceived offer", offer);
     context.remoteNickname = offer.clientId;
     if (context.peerConnection === null) {
-      context.createPeerConnection(context);
+      createPeerConnection(context);
     }
-    context.peerConnection
-      .setRemoteDescription(new RTCSessionDescription(offer))
-      .then(async () => {
-        const answer = await context.peerConnection.createAnswer();
-        await context.peerConnection.setLocalDescription(answer);
-        if (context.isConnected) {
-          sendAnswer(context.stompClient, answer, context.getClientId());
-          context.statusMessage = "Received offer and sent answer";
-        } else {
-          context.statusMessage =
-            "Error: WebSocket connection is not established";
-        }
-      });
+    await context.peerConnection.setRemoteDescription(new RTCSessionDescription(offer))
+
+    const answer = await context.peerConnection.createAnswer();
+    await context.peerConnection.setLocalDescription(answer);
+    if (context.isConnected) {
+      sendAnswer(context.stompClient, answer, context.getClientId());
+      context.statusMessage = "Received offer and sent answer";
+    } else {
+      context.statusMessage =
+        "Error: WebSocket connection is not established";
+    }
   } catch (error) {
     console.error("Failed to handle offer:", error);
     context.statusMessage = "Error handling offer";
   }
 }
 
-export function handleAnswer(context, message) {
+async function addTrack(context){
+  if(context.localStream){
+    context.localStream.getTracks().forEach(track => {
+      context.peerConnection.addTrack(track, context.localStream);
+    });
+  }
+}
+
+export async function handleAnswer(context, message) {
   try {
     const answer = JSON.parse(message.body);
     if (answer.clientId === context.getClientId()) {
       return;
     }
     console.log("revceived answer", answer);
+    context.remoteNickname = answer.clientId;
+    
     if (context.peerConnection.signalingState === "have-local-offer") {
-      context.peerConnection.setRemoteDescription(
-        new RTCSessionDescription(answer)
-      );
-      context.remoteNickname = answer.clientId;
+      await context.peerConnection.setRemoteDescription(new RTCSessionDescription(answer));      
     } else {
       console.error(
         "Failed to handle answer: Incorrect signaling state",
@@ -134,18 +141,13 @@ export async function handleCandidate(context, message) {
     }
     const candidate = new RTCIceCandidate(body.candidate);
     console.log("revceived candidate", candidate);
-    if(candidate && context.peerConnection.remoteDescription){
+    if(candidate){
       try {
         await context.peerConnection.addIceCandidate(candidate);
         console.log("added candidate")
       } catch (e) {
         console.error('Error adding received ice candidate', e);
       }
-    }
-    else {
-      // Queue the candidate if remote description is not yet set
-      // context.iceCandidateQueue.push(candidate);
-      // console.log('Queued ICE candidate', candidate);
     }
   } catch (error) {
     console.error('Failed to handle candidate:', error);
@@ -157,10 +159,7 @@ export function createPeerConnection(context) {
   context.peerConnection = new RTCPeerConnection({
     iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
   });
-  
-  context.localStream.getTracks().forEach(track => {
-    context.peerConnection.addTrack(track, context.localStream);
-  });
+  addTrack(context)
 
   context.peerConnection.addEventListener("connectionstatechange", () => {
     if (context.peerConnection.connectionState === "connected") {
@@ -184,8 +183,8 @@ export function createPeerConnection(context) {
   });
 }
 
-export function startLocalVideo(context) {
-  navigator.mediaDevices
+export async function startLocalVideo(context) {
+  await navigator.mediaDevices
     .getUserMedia({ video: true, audio: true })
     .then((stream) => {
       context.localStream = stream;
