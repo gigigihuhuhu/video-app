@@ -2,7 +2,6 @@ import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
 export function initializeWebSocket(context) {
-  // 변경필요, STOMP 파악필요
   const socket = new SockJS("http://localhost:8080/ws", null, {
     withCredentials: false,
   });
@@ -40,6 +39,7 @@ export function sendOffer(stompClient, offer, clientId) {
     type: offer.type,
     clientId: clientId, // Include the unique client ID
   };
+  console.log("send offer ", offerWithClientId)
   stompClient.publish({
     destination: "/app/offer",
     body: JSON.stringify(offerWithClientId),
@@ -60,10 +60,10 @@ export function sendAnswer(stompClient, answer, clientId) {
 
 export function sendCandidate(stompClient, candidate, clientId) {
   const candidateWithClientId = {
-    sdp: candidate.sdp,
-    type: candidate.type,
-    clientId: clientId, // Include the unique client ID
+    clientId: clientId,
+    candidate: candidate.toJSON()
   };
+  console.log("sendCandidate",candidateWithClientId.candidate)
   stompClient.publish({
     destination: "/app/candidate",
     body: JSON.stringify(candidateWithClientId),
@@ -124,23 +124,27 @@ export function handleAnswer(context, message) {
   }
 }
 
-export async function handleCandidate(context, message) { // We will have to check if the message is sent by its own
+//TODO: Check RemoteDescriptionSet Error: Cannot read properties of null (reading 'remoteDescription')
+export async function handleCandidate(context, message) {
   try {
-    const candidate = JSON.parse(message.body);
+    const body = JSON.parse(message.body);
+    if (body.clientId === context.getClientId()) {
+      return;
+    }
+    const candidate = new RTCIceCandidate(body.candidate);
     console.log("revceived candidate", candidate);
-    if(candidate.iceCandidate){
+    if(candidate && context.peerConnection.remoteDescription){
       try {
-        await context.peerConnection.addIceCandidate(candidate.iceCandidate);
+        await context.peerConnection.addIceCandidate(candidate);
+        console.log("added candidate")
       } catch (e) {
         console.error('Error adding received ice candidate', e);
       }
     }
-    if (context.peerConnection.remoteDescription) {
-      context.statusMessage = 'Received ICE candidate';
-    } else {
+    else {
       // Queue the candidate if remote description is not yet set
-      context.iceCandidateQueue.push(candidate);
-      console.log('Queued ICE candidate', candidate);
+      // context.iceCandidateQueue.push(candidate);
+      // console.log('Queued ICE candidate', candidate);
     }
   } catch (error) {
     console.error('Failed to handle candidate:', error);
@@ -152,9 +156,12 @@ export function createPeerConnection(context) {
   context.peerConnection = new RTCPeerConnection({
     iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
   });
+  
+  context.localStream.getTracks().forEach(track => {
+    context.peerConnection.addTrack(track, context.localStream);
+  });
 
-  context.peerConnection.addEventListener("connectionstatechange", (event) => {
-    console.log("event", event);
+  context.peerConnection.addEventListener("connectionstatechange", () => {
     if (context.peerConnection.connectionState === "connected") {
       context.statusMessage = "Call established";
       context.isEstablished = true;
@@ -163,26 +170,17 @@ export function createPeerConnection(context) {
 
   context.peerConnection.addEventListener("icecandidate", (event) => {
     if (event.candidate) {
-      console.log("icecandidate event : ", event);
-      if(context.isConnected) {
-        sendCandidate(context.stompClient, event.candidate, context.getClientId());
-      }
-      else {
-        context.iceCandidateQueue.push(event.candidate);
-        console.log("Queued ICE candidate", event.candidate);
-      }
+      sendCandidate(context.stompClient, event.candidate, context.getClientId());
     }
   });
 
-  // context.peerConnection.ontrack = event => {
-  //   if (context.remoteVideoRef) {
-  //     context.remoteVideoRef.srcObject = event.streams[0];
-  //   }
-  // };
-
-  // context.localStream.getTracks().forEach(track => {
-  //   context.peerConnection.addTrack(track, context.localStream);
-  // });
+  context.peerConnection.addEventListener('track', async (event) => {
+    if (context.$refs.remote) {
+      event.streams.forEach(stream =>{
+        context.$refs.remote.srcObject = stream;
+      })
+    }
+  });
 }
 
 export function startLocalVideo(context) {

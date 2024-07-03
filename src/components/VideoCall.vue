@@ -42,8 +42,8 @@ export default {
     };
   },
   mounted() {
-    this.initializeWebSocket();
     startLocalVideo(this);
+    this.initializeWebSocket();
   },
   methods: {
     initializeWebSocket() {
