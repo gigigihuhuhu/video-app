@@ -12,6 +12,7 @@
       </div>
     </div>
     <button @click="call" class="button">Call</button>
+    <button @click="getConnState" class="button">Connection State</button>
     <p class="status-message">{{ statusMessage }}</p>
   </div>
 </template>
@@ -36,7 +37,8 @@ export default {
       isConnected: false,
       statusMessage: 'Connecting to WebSocket server...',
       iceCandidateQueue: [],
-      remoteNickname: 'Waiting for remote'
+      remoteNickname: 'Waiting for remote',
+      isEstablished: false
     };
   },
   mounted() {
@@ -50,6 +52,12 @@ export default {
     createPeerConnection() {
       createPeerConnection(this);
     },
+    getClientId() {
+      return this.nickname
+    },
+    getConnState() {
+      console.log(this.peerConnection)
+    },
     async call() {
       if (!this.isConnected) {
         this.statusMessage = 'Not connected to WebSocket server';
@@ -57,11 +65,10 @@ export default {
       }
 
       this.createPeerConnection();
-      //handleAnswer event 등록
       const offer = await this.peerConnection.createOffer();
       await this.peerConnection.setLocalDescription(offer);
       if (this.isConnected) {
-        sendOffer(this.stompClient, offer);
+        sendOffer(this.stompClient, offer, this.getClientId());
         this.statusMessage = 'Call initiated, waiting for answer...';
       } else {
         this.statusMessage = 'Error: WebSocket connection is not established';
