@@ -63,7 +63,7 @@ export function sendCandidate(stompClient, candidate, clientId) {
     clientId: clientId,
     candidate: candidate.toJSON()
   };
-  console.log("sendCandidate",candidateWithClientId.candidate)
+  console.log("sendCandidate",candidateWithClientId)
   stompClient.publish({
     destination: "/app/candidate",
     body: JSON.stringify(candidateWithClientId),
@@ -76,7 +76,7 @@ export function handleOffer(context, message) {
     if (offer.clientId === context.getClientId()) {
       return;
     }
-    console.log("revceived offer", offer);
+    context.remoteNickname = offer.clientId;
     if (context.peerConnection === null) {
       context.createPeerConnection(context);
     }
@@ -110,6 +110,7 @@ export function handleAnswer(context, message) {
       context.peerConnection.setRemoteDescription(
         new RTCSessionDescription(answer)
       );
+      context.remoteNickname = answer.clientId;
     } else {
       console.error(
         "Failed to handle answer: Incorrect signaling state",
