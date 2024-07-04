@@ -1,24 +1,33 @@
-# telemedicine-app
+# References and guidelines
 
-## Project setup
+## Vue.js
+
+### vue-cli-service command lines
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
-```
-
-### Compiles and minifies for production
-```
 npm run build
-```
-
-### Lints and fixes files
-```
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Docker
+
+### Dockerize Vue.js App
+https://v2.ko.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
+
+### customized command lines
+```
+$PROJECT_BASE_DIR/bin/build.sh 1.2.3
+$PROJECT_BASE_DIR/bin/run.sh
+```
+
+## WebRTC
+
+### Getting Started
+https://webrtc.org/getting-started/media-devices
+
+### Perfect negotiation pattern for WebRTC
+https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Perfect_negotiation
+
+## Future Idea
+Screen sharing functions
