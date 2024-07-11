@@ -84,6 +84,5 @@ argocd login localhost
 
 argocd account update-password
 ```
-
 ## Future Idea
 Screen sharing functions
