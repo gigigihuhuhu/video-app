@@ -18,6 +18,9 @@ https://v2.ko.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
 ### Cheat sheet
 https://docs.docker.com/get-started/docker_cheatsheet.pdf
 
+### Multi Arch Build (arm64, amd64)
+https://www.docker.com/blog/multi-arch-build-and-images-the-simple-way/
+
 ### customized command lines
 ```
 $PROJECT_BASE_DIR/bin/build.sh 1.2.3
