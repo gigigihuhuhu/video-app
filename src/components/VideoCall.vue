@@ -12,6 +12,7 @@
       </div>
     </div>
     <button @click="call" class="button">Call</button>
+    <button @click="getUrl" class="button">getUrl</button>
     <button @click="getConnState" class="button">Connection State</button>
     <p class="status-message">{{ statusMessage }}</p>
   </div>
@@ -46,6 +47,9 @@ export default {
     initializeWebSocket(this);
   },
   methods: {
+    getUrl(){
+      console.log("VUE_APP_WEB_SOCKET_SERVER : " + process.env.VUE_APP_WEB_SOCKET_SERVER);
+    },
     getClientId() {
       return this.nickname
     },
