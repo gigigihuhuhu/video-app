@@ -2,7 +2,7 @@ import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
 export function initializeWebSocket(context) {
-  const socket = new SockJS("http://localhost:8080/ws", null, {
+  const socket = new SockJS(process.env.VUE_APP_WEB_SOCKET_SERVER, null, {
     withCredentials: false,
   });
   context.stompClient = new Client({
