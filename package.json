@@ -1,10 +1,11 @@
 {
   "name": "telemedicine-app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --mode local",
     "build": "vue-cli-service build",
+    "build-dev": "vue-cli-service build --mode dev",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
