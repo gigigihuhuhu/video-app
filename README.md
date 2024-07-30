@@ -14,6 +14,7 @@ npm run lint
 
 ### Dockerize Vue.js App
 https://v2.ko.vuejs.org/v2/cookbook/dockerize-vuejs-app.html
+https://moreillon.medium.com/environment-variables-for-containerized-vue-js-applications-f0aa943cb962
 
 ### Cheat sheet
 https://docs.docker.com/get-started/docker_cheatsheet.pdf
