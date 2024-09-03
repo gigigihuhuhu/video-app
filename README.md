@@ -43,13 +43,13 @@ Adopt Kubernetes for simulate real world applications.
 
 Setups
 ```
-#Alias settings
-alias k=kubectl
-complete -o default -F __start_kubectl k
+#Alias settings     .bashrc 안에 넣기
+echo 'alias k=kubectl
+complete -o default -F __start_kubectl k' >> ~/.bashrc
 
 #Auto completion settings
-source <(kubectl completion zsh)
-echo '[[ $commands[kubectl] ]] && source <(kubectl completion zsh)' >> ~/.zshrc
+source <(kubectl completion bash)
+echo '[[ $commands[kubectl] ]] && source <(kubectl completion bash)' >> ~/.bashrc
 
 brew install kubectx
 #kubens <namespace-name>
@@ -88,5 +88,28 @@ argocd login localhost
 
 argocd account update-password
 ```
+
+## First Deploy
+
+git clone https://github.com/gigigihuhuhu/gitops.git
+
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/    1.~4.
+
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.24.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
+
+sudo apt-get update
+sudo apt-get install docker.io
+whoami
+sudo usermod -aG docker ubuntu(계정명)
+
+- sudo 없이 docker 명령어 실행가능 여부 확인 하기
+docker images
+
+- Setup kind cluster 
+~/gitops/kind/create_clusters.sh
+
+
 ## Future Idea
 Screen sharing functions

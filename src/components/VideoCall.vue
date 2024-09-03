@@ -11,6 +11,7 @@
         <video ref="remote" autoplay playsinline class="video"></video>
       </div>
     </div>
+    <button @click="initializeWebSocket" class="button">initializeWebSocket</button>
     <button @click="call" class="button">Call</button>
     <button @click="getUrl" class="button">getUrl</button>
     <button @click="getConnState" class="button">Connection State</button>
@@ -47,6 +48,11 @@ export default {
     initializeWebSocket(this);
   },
   methods: {
+    initializeWebSocket(){
+      initializeWebSocket(this);
+      this.statusMessage = 'Try initialize WebSocket server';
+    },
+
     getUrl(){
       console.log("VUE_APP_WEB_SOCKET_SERVER : " + process.env.VUE_APP_WEB_SOCKET_SERVER);
     },

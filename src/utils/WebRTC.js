@@ -2,6 +2,7 @@ import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
 export function initializeWebSocket(context) {
+  console.log("VUE_APP_WEB_SOCKET_SERVER : " + process.env.VUE_APP_WEB_SOCKET_SERVER)
   const socket = new SockJS(process.env.VUE_APP_WEB_SOCKET_SERVER, null, {
     withCredentials: false,
   });
