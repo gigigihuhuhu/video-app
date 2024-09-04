@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <h1 class="title">Welcome to Telemedicine App</h1>
+    <h1 class="title">Welcome to Kyungsu's Room</h1>
     <form @submit.prevent="goToVideoCall" class="form-container">
       <label for="nickname" class="label">Enter your nickname:</label>
       <input type="text" id="nickname" v-model="nickname" required class="input" />

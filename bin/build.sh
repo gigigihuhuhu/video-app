@@ -20,7 +20,7 @@ regex='^[0-9]+.[0-9]+.[0-9]+$'
 
 # Check if the first parameter matches the regex
 if [[ $1 =~ $regex ]]; then
-  docker build -t telemedicine-app:$1 .
+  docker build -t video-app:$1 .
 else
   echo "Please pass the correct format of parameter
         
