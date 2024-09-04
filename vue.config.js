@@ -9,8 +9,5 @@ module.exports = defineConfig({
         '@utils': path.resolve(__dirname, 'src/utils')
       }
     }
-  },
-  devServer: {
-    https: true
   }
 });

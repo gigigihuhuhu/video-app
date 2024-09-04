@@ -70,9 +70,13 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 
 ### TLS/SSL
 https://thekoguryo.github.io/oracle-cloudnative/oss/ingress-controller/4.nginx-ingress-tls-termination/#google_vignette
-- self-signed의 경우 wss 인증서 항상 신뢰필요
+- self-signed의 경우 wss 인증서 항상 신뢰한다고 해야지 아니면 net::ERR_CERT_AUTHORITY_INVALID 발생
 - https://cert-manager.io/ Cert Manager 로 자동갱신 가능
+- helm 설치 : https://helm.sh/docs/intro/install/
 - https://cert-manager.io/docs/installation/helm/
+- 1. issuer 생성, 2. ingress에 issuer 명시 및 spec.tls 작성 3. staging -> prod 변경 시 기존 secret 삭제 4. k get certificate -> READY == True 확인
+
+
 
 ### ArgoCD
 https://argo-cd.readthedocs.io/en/stable/
