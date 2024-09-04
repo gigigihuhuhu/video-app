@@ -68,6 +68,12 @@ kind create cluster --config kind-config.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 ```
 
+### TLS/SSL
+https://thekoguryo.github.io/oracle-cloudnative/oss/ingress-controller/4.nginx-ingress-tls-termination/#google_vignette
+- self-signed의 경우 wss 인증서 항상 신뢰필요
+- https://cert-manager.io/ Cert Manager 로 자동갱신 가능
+- https://cert-manager.io/docs/installation/helm/
+
 ### ArgoCD
 https://argo-cd.readthedocs.io/en/stable/
 
