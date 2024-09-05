@@ -92,6 +92,7 @@ brew install argocd
 
 #Get Initial password
 argocd admin initial-password -n argocd
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
 #Change password
 argocd login localhost
@@ -120,6 +121,15 @@ docker images
 - Setup kind cluster 
 ~/gitops/kind/create_clusters.sh
 
+### Issues
+- ArgoCD ERR_TOO_MANY_REDIRECTS 발생
+How? --insecure 파라미터 추가하여 해결 가능 
+    (argocd-cmd-params-cm.data.server.insecure: "true")
+Why? ArgoCD http 요청을 https로 리다이렉트 <-> Ingress https 요청 terminate -> http로 ArgoCD 와 소통하려 함을 반복
 
 ## Future Idea
 Screen sharing functions
+
+### TO-DO
+1. 몰래 슬쩍 들어가기 기능
+2. 채팅창 구현
