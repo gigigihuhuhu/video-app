@@ -2,89 +2,125 @@
   <div class="videocall-container">
     <h1 class="title">Video Call</h1>
     <div class="video-container">
-      <div class="local-video-wrapper">
-        <p class="nickname">{{ nickname }}</p>
+      <div class="local-video-wrapper" v-show=!isSneaker>
+        <p class="nickname">{{ clientId }}</p>
         <video ref="local" autoplay playsinline class="video"></video>
       </div>
-      <div class="remote-video-wrapper">
-        <p class="nickname">{{ remoteNickname }}</p>
-        <video ref="remote" autoplay playsinline class="video"></video>
+      <div class="remote-video-wrapper" v-for="(remoteInfo) in remote" :key="remoteInfo.index" v-show="remoteInfo.isSneaker!=true">
+        <p class="nickname">{{ remoteInfo.clientId }}</p>
+        <video :ref="'videoRef' + remoteInfo.index" autoplay playsinline class="video"></video>
       </div>
     </div>
-    <button @click="initializeWebSocket" class="button">initializeWebSocket</button>
-    <button @click="call" class="button">Call</button>
-    <button @click="getUrl" class="button">getUrl</button>
     <button @click="getConnState" class="button">Connection State</button>
     <p class="status-message">{{ statusMessage }}</p>
   </div>
 </template>
 
 <script>
-import { createPeerConnection, startLocalVideo, initializeWebSocket, sendOffer } from '@/utils/WebRTC';
+import { initializeWebSocket, sendBye } from '@/utils/WebRTC';
 
 export default {
   name: 'VideoCall',
-  props: {
-    nickname: {
-      type: String,
-      default: ""
-    }
-  },
   data() {
     return {
       localStream: null,
-      remoteStream: null,
-      peerConnection: null,
       stompClient: null,
       isConnected: false,
       statusMessage: 'Connecting to WebSocket server...',
-      iceCandidateQueue: [],
-      remoteNickname: 'Waiting for remote',
-      isEstablished: false
+      clientId: this.$route.params.clientId,
+      isSneaker: this.$route.params.isSneaker === 'true' ? true : false,
+      remote: [], /* {
+                      index : null
+                      clientId : message.clientId,
+                      sdp : message.sdp,
+                      type: message.type,
+                      peerConnection : null,
+                      isEstablished : false,
+                      statusMessage : ''
+                    }*/
+      candidateQueue: []
     };
   },
   async mounted() {
-    startLocalVideo(this);
+    this.remote = []
+    this.stompClient = null
+    this.startLocalVideo();
     initializeWebSocket(this);
+    this.startInterval();
+    window.addEventListener('beforeunload', this.cleanup);
   },
   methods: {
-    initializeWebSocket(){
-      initializeWebSocket(this);
-      this.statusMessage = 'Try initialize WebSocket server';
+    startInterval() {
+      setInterval(() => {
+        this.processCandidateQueue();
+      }, 1000);
     },
 
-    getUrl(){
-      console.log("VUE_APP_WEB_SOCKET_SERVER : " + process.env.VUE_APP_WEB_SOCKET_SERVER);
-    },
-    getClientId() {
-      return this.nickname
-    },
     getConnState() {
-      console.log(this.peerConnection)
-    },
-    async call() {
-      if (!this.isConnected) {
-        this.statusMessage = 'Not connected to WebSocket server';
-        return;
+      for (let e of this.remote) {
+        console.log(e)
       }
+    },
 
-      await createPeerConnection(this);
+    getRemoteInfoByClientId(clientId) {
+      for (let e of this.remote) {
+        if (e.clientId === clientId) {
+          return e
+        }
+      }
+      return null;
+    },
 
-      const offer = await this.peerConnection.createOffer();
-      await this.peerConnection.setLocalDescription(offer);
-      if (this.isConnected) {
-        sendOffer(this.stompClient, offer, this.getClientId());
-        this.statusMessage = 'Call initiated, waiting for answer...';
-      } else {
-        this.statusMessage = 'Error: WebSocket connection is not established';
+    async startLocalVideo() {
+      await navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          if (this.$refs.local && !this.isSneaker) {
+            this.localStream = stream;
+            this.$refs.local.srcObject = stream;
+          }
+        });
+    },
+
+    async processCandidateQueue() {
+      let queue = [];
+      while (this.candidateQueue.length > 0) {
+        let message = this.candidateQueue.pop();
+        let remoteInfo = this.getRemoteInfoByClientId(message.clientId);
+        const candidate = new RTCIceCandidate(message.candidate);
+        if (
+          candidate &&
+          remoteInfo &&
+          remoteInfo.peerConnection.remoteDescription
+        ) {
+          await remoteInfo.peerConnection.addIceCandidate(candidate);
+          console.log("added candidate");
+        } else {
+          queue.push(message);
+          console.log("queued candidate :" + candidate);
+        }
+      }
+      this.candidateQueue = queue.slice();
+    },
+
+    cleanup(){
+      if (this.stompClient) {
+        this.stompClient.deactivate();
+        sendBye(this);
       }
     }
+  },
+
+  beforeUnmount() {
+    this.cleanup();
+    window.removeEventListener('beforeunload', this.cleanup);
   }
 };
 </script>
 
 <style scoped>
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
