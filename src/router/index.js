@@ -1,18 +1,17 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../components/Home.vue';
-import VideoCall from '../components/VideoCall.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../components/Home.vue";
+import VideoCall from "../components/VideoCall.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
   },
   {
-    path: '/video-call/:nickname',
-    name: 'VideoCall',
-    component: VideoCall,
-    props: true
+    path: "/video-call",
+    name: "VideoCall",
+    component: VideoCall
   },
 ];
 

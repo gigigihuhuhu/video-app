@@ -1,10 +1,13 @@
 <template>
   <div class="home-container">
     <h1 class="title">Welcome to Kyungsu's Room</h1>
-    <form @submit.prevent="goToVideoCall" class="form-container">
+    <form class="form-container">
       <label for="nickname" class="label">Enter your nickname:</label>
-      <input type="text" id="nickname" v-model="nickname" required class="input" />
-      <button type="submit" class="button">Go to Video Call</button>
+      <input type="text" id="nickname" v-model="nickname" required class="input" @keyup.enter="goToVideoCall" autofocus/>
+      <div class="button-container">
+        <button type="button" @click="goToVideoCall" class="button">방송 시작</button>
+        <button type="button" @click="goToSneakIn" class="button sneak-in">몰래 구경하기</button>
+      </div>
     </form>
   </div>
 </template>
@@ -19,7 +22,11 @@ export default {
   },
   methods: {
     goToVideoCall() {
-      this.$router.push({ name: 'VideoCall', params: { nickname: this.nickname } });
+      this.$router.push({ name: 'VideoCall', params: { clientId: this.nickname, isSneaker: false } });
+    },
+
+    goToSneakIn() {
+      this.$router.push({ name: 'VideoCall', params: { clientId: 'sneaker', isSneaker: true } });
     }
   }
 };
@@ -83,6 +90,11 @@ html, body {
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
+.button-container {
+  display: flex;
+  gap: 10px;
+}
+
 .button {
   padding: 0.7rem 2rem;
   font-size: 1rem;
@@ -96,5 +108,19 @@ html, body {
 
 .button:hover {
   background-color: #0056b3;
+}
+
+
+.sneak-in {
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
+  color: rgb(168, 168, 168);
+  background-color: #efefef;
+}
+
+
+.sneak-in:hover {
+  color: rgb(106, 106, 106);
+  background-color: #d7d7d7;
 }
 </style>
