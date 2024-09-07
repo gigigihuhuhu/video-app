@@ -1,6 +1,6 @@
 <template>
   <div class="videocall-container">
-    <h1 class="title">Video Call</h1>
+    <h1 class="title">경수의 방</h1>
     <div class="video-container">
       <div class="local-video-wrapper" v-show=!isSneaker>
         <p class="nickname">{{ clientId }}</p>
@@ -150,6 +150,7 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap; /* 추가: 넘칠 경우 새로운 줄로 넘어가도록 설정 */
 }
 
 .local-video-wrapper {
@@ -176,7 +177,8 @@ body {
   width: 400px;
   height: 300px;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 50px;
+  margin: 10px; /* 추가: 각 video 사이에 공간을 주기 위해 여백 설정 */
 }
 
 .button {
