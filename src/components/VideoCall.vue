@@ -73,11 +73,19 @@ export default {
 
     async startLocalVideo() {
       await navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
+        .getUserMedia({ 
+          video: true, 
+          audio: {
+            echoCancellation: true, // 에코 취소 활성화
+            noiseSuppression: true,  // 잡음 제거 활성화
+            autoGainControl: true    // 자동 게인 제어
+          } 
+        })
         .then((stream) => {
           if (this.$refs.local && !this.isSneaker) {
             this.localStream = stream;
             this.$refs.local.srcObject = stream;
+            this.$refs.local.muted = true; // 자신의 오디오는 음소거
           }
         });
     },
