@@ -165,7 +165,7 @@ async function handleOffer(context, message) {
     peerConnection: null,
     isEstablished: false,
     statusMessage: "Received hello",
-    isSneaker: message.sneaker
+    isSneaker: message.isSneaker
   };
 
   createPeerConnection(context, remoteInfo);
