@@ -11,8 +11,8 @@
         <video :ref="'videoRef' + remoteInfo.index" autoplay playsinline class="video"></video>
       </div>
     </div>
-    <button @click="getConnState" class="button">Connection State</button>
     <p class="status-message">{{ statusMessage }}</p>
+    <button @click="goBack" class="back-button">&larr;</button>
   </div>
 </template>
 
@@ -111,6 +111,10 @@ export default {
       this.candidateQueue = queue.slice();
     },
 
+    goBack() {
+      this.$router.go(-1); // 뒤로 가기 기능을 수행
+    },
+
     cleanup(){
       if (this.stompClient) {
         this.stompClient.deactivate();
@@ -140,16 +144,15 @@ body {
   align-items: center;
   justify-content: flex-start;
   min-height: 100vh;
-  background-color: #f0f2f5;
   color: #333;
   font-family: 'Roboto', sans-serif;
 }
 
 .title {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
   font-weight: bold;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .video-container {
@@ -189,7 +192,7 @@ body {
   margin: 10px; /* 추가: 각 video 사이에 공간을 주기 위해 여백 설정 */
 }
 
-.button {
+/* .button {
   padding: 0.7rem 2rem;
   font-size: 1rem;
   color: white;
@@ -203,10 +206,24 @@ body {
 .button:hover {
   background-color: #0056b3;
 }
-
-.status-message {
+*/
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
   font-size: 1rem;
-  color: #555;
-  margin-top: 1rem;
+  color: rgba(0, 0, 0, 0.5); /* 흰색에 약간 투명도 추가 */
+  background-color: transparent; /* 배경을 투명하게 설정 */
+  border: none; /* 테두리 제거 */
+  cursor: pointer; /* 버튼에 커서 모양 설정 */
+  transition: color 0.3s; /* 색상 변화만 적용 */
+}
+
+.back-button:hover {
+  color: rgb(0, 0, 0);
+}
+
+.back-button:focus {
+  outline: none;
 }
 </style>
