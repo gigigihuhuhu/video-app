@@ -53,6 +53,9 @@ echo '[[ $commands[kubectl] ]] && source <(kubectl completion bash)' >> ~/.bashr
 
 brew install kubectx
 #kubens <namespace-name>
+
+# Access Service via cluster
+host : <service-name>.<namespace>.svc.cluster.local
 ```
 
 ### Kind
@@ -121,11 +124,59 @@ docker images
 - Setup kind cluster 
 ~/gitops/kind/create_clusters.sh
 
+### Helm
+```
+helm ls -n keycloak
+helm get values -n keycloak keycloak --all
+```
+
+### Postgresql
+```
+# postgres CLI login
+k exec -n postgresql postgresql-0 -it -- psql -U postgres
+# Password
+- k get secrets -n postgresql postgresql -o jsonpath="{.data.postgres-password}" | base64 -d
+# Add Keycloak DB, User
+k exec -n postgresql  postgresql-0 -it -- psql -U postgres
+CREATE USER keycloak WITH PASSWORD 'password';
+CREATE DATABASE keycloak;
+GRANT ALL PRIVILEGES ON DATABASE keycloak TO keycloak;
+GRANT CREATE ON SCHEMA public TO keycloak;
+
+select * from pg_tables;
+select * from pg_tables where tableowner = 'keycloak';
+```
+
+### Keycloak
+```
+helm delete -n keycloak my-keycloak
+helm install keycloak bitnami/keycloak --version 22.2.3 -n keycloak -f values.yaml
+
+1. Realm 생성
+2. Client 생성 - application 사용자를 인증 시킴
+3. 
+```
+
+### etc
+```
+# # eliminate
+sed '/^[[:blank:]]*#/d;s/#.*//'
+```
+
 ### Issues
 - ArgoCD ERR_TOO_MANY_REDIRECTS 발생
 How? --insecure 파라미터 추가하여 해결 가능 
     (argocd-cmd-params-cm.data.server.insecure: "true")
 Why? ArgoCD http 요청을 https로 리다이렉트 <-> Ingress https 요청 terminate -> http로 ArgoCD 와 소통하려 함을 반복
+
+- Values 변경 후 Postgresql 및 Keycloak의 postgres 접속이 안되는 현상 발생
+How? ns 삭제 후 전체 reset
+Why? Chart 업그레이드 시 자동으로 비밀번호 랜덤생성 들어감. 이를 막기 위해서는 비밀번호 지정 필요. existingSecret
+
+    After a helm delete keycloak both the keycloak and the postgresql pod is gone. Also all the secrets are gone.
+    (However the pvc is not deleted and will be reused later.)
+
+    Then I do a helm install keycloak bitnami/keycloak -f values with the above values, which will result in the described behavior, because it picks up the old pvc which is still configured with the old password.
 
 ## Future Idea
 Screen sharing functions
