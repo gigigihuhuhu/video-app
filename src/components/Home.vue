@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-    <h1 class="title">Welcome to Kyungsu's Room</h1>
+    <h1 class="title">안녕 친구들?</h1>
     <form class="form-container">
       <input type="text" id="nickname" :placeholder="nickname" v-model="clientId" required class="input" @keyup.enter="goToVideoCall" autofocus/>
       <div class="button-container">
