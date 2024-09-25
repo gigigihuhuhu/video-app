@@ -38,28 +38,31 @@ export default {
                     categoryName: '통합',
                     submenus: [
                         { displayName: '화상채팅', path: 'video' },
-                        { displayName: '캘린더', path: 'calendar' },
-                        { displayName: '차트', path: 'chart' },
+                        { displayName: '캘린더 연동', path: 'calendar' },
+                        { displayName: '차트 연동', path: 'chart' },
+                        { displayName: '지도 연동', path: 'map' },
+                        { displayName: '게시판 구현', path: 'board' },
+                        { displayName: '로그인 연동', path: 'login' },
+                        { displayName: '결제 연동', path: 'payment' },
+                        { displayName: 'SMS 연동', path: 'sms' },
+                        { displayName: 'Email 연동', path: 'email' },
+                        { displayName: '검색 엔진 최적화(SEO)', path: 'seo' },
+                        { displayName: 'LLM 연동', path: 'llm' },
+                        { displayName: '화면공유', path: 'screensharing' },
                     ]
                 },
                 {
                     categoryName: '기술 스택',
                     submenus: [
-                        { displayName: '서브메뉴1', path: 'sub1' },
-                        { displayName: '서브메뉴2', path: 'sub2' },
-                        { displayName: '서브메뉴3', path: 'sub3' },
-                        { displayName: '서브메뉴4', path: 'sub4' }
+                        { displayName: 'kubernetes', path: 'k8s' },
+                        { displayName: 'aws', path: 'aws' },
+                        { displayName: 'java', path: 'java' },
+                        { displayName: 'javascript', path: 'js' },
+                        { displayName: 'html/css', path: 'html/css' },
+                        { displayName: 'spring boot', path: 'spring' },
+                        { displayName: 'gitops', path: 'gitops' },
                     ]
                 },
-                {
-                    categoryName: '기술 스택',
-                    submenus: [
-                        { displayName: '서브메뉴1', path: 'sub1' },
-                        { displayName: '서브메뉴2', path: 'sub2' },
-                        { displayName: '서브메뉴3', path: 'sub3' },
-                        { displayName: '서브메뉴4', path: 'sub4' }
-                    ]
-                }
             ]
         }
     }

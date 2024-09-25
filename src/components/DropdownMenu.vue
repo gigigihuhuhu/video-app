@@ -19,6 +19,7 @@
 </template>
   
 <script>
+//TODO : items.submenus.type 생성하여 type이 button 인 경우 클릭 시 route 가능하도록, dropdown 인 경우 또 다시 drop down 가능하도록 구현
 export default {
     name: 'DropdownMenu',
     props: {
