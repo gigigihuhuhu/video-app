@@ -6,7 +6,8 @@
         </button>
         <div :style="categoryStyle" class="dropdown-menu" v-if="isOpen">
             <ul :style="categoryListStyle" class="category-list">
-                <li class="category" v-for="(item, index) in items" :key="index">{{ item.categoryName }}
+                <li class="category" v-for="(item, index) in items" :key="index">
+                    {{ item.categoryName }}
                     <ul class="submenu-list">
                         <li class="submenu" v-for="(submenu, submenuIndex) in item.submenus" :key="submenuIndex">
                             {{ submenu.displayName }}
@@ -57,7 +58,7 @@ export default {
         },
         categoryStyle(){
             return {
-                width: this.items.length * 150+'px',
+                width: this.items.length * 10 + 'rem',
             }
         }
     },
@@ -81,13 +82,11 @@ export default {
 }
 
 .dropdown-menu {
-    width: 300px;
     position: absolute;
     top: 100%;
     background-color: white;
-    border-radius: 5px;
-    padding: 0.7rem;
-    border-bottom: 1px solid rgba(91, 94, 110, 0.1);
+    border-radius: 8px;
+    padding: 1em;
     box-shadow:
         5px 5px 5px rgba(91, 94, 110, 0.1),
         -5px -5px 5px rgba(91, 94, 110, 0.1);
@@ -96,18 +95,17 @@ export default {
 
 .category-list {
     display: grid;
-    gap: 20px;
 }
 
 .category {
     font-size: 0.9rem;
     font-weight: bold;
     text-align: left;
-    padding: 7px
+    padding: 0.5rem
 }
 
 .submenu-list {
-    margin-top: 7px;
+    margin-top: 0.5rem;
 }
 
 .submenu {
@@ -115,9 +113,9 @@ export default {
     font-weight: normal;
     text-align: left;
     display: block;
-    padding: 7px;
-    margin-left: -7px;
-    border-radius: 5px;
+    padding: 0.5rem;
+    margin-left: -0.5rem;
+    border-radius: 8px;
 }
 
 .submenu:hover {

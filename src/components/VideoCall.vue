@@ -152,7 +152,7 @@ body {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   font-weight: bold;
-  margin-top: 20px;
+  margin-top: 1rem;
 }
 
 .video-container {
@@ -168,14 +168,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: start;
-  margin: 10px;
+  margin: 1rem;
 }
 
 .remote-video-wrapper {
   display: flex;
   flex-direction: column;
   align-items: end;
-  margin: 10px;
+  margin: 1rem;
 }
 
 .nickname {

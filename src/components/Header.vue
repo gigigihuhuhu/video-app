@@ -1,6 +1,6 @@
 <!-- src/components/Header.vue -->
 <template>
-    <header>
+    <header class="border-bottom">
         <nav class="nav-bar">
             <ul class="nav-links">
                 <li>
@@ -72,9 +72,8 @@ export default {
 <style scoped>
 header {
     margin: auto;
-    height: 72px;
-    border-bottom: 1px solid rgba(91, 94, 110, 0.1);
-    box-shadow: 0px 1px 2px rgba(91, 94, 110, 0.1);
+    height: 3.5rem;
+    padding: 0.5rem;
 }
 
 .nav-bar {
@@ -82,24 +81,24 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 1rem;
 }
 
 .logo {
-    height: 60px;
+    height: 3rem;
     padding-right: 1rem;
 }
 
 .login-container {
     display: flex;
-    gap: 15px;
+    gap: 1rem;
 }
 
 @media (max-width: 1024px) {

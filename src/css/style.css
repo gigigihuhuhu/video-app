@@ -1,8 +1,23 @@
+html {
+    font-size: 16px
+}
+
+:root {
+    --blue-color: #2f93ff;
+    --blue-hover-color: #0056b3;
+    --white-hover-color: #ececec;
+    --gray-color: #ececec;
+    --gray-hover-color: #dadada;
+    --gray-font-color: gray;
+    --highlight-color1: #00d9ff;
+    --highlight-color2: #4000ff;
+}
+
 .button {
     font-size: 0.9rem;
     padding: 0.6rem 1.5rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
     background-color: var(--gray-color);
@@ -40,13 +55,7 @@
     background-color: var(--white-hover-color);
 }
 
-:root {
-    --blue-color: #2f93ff;
-    --blue-hover-color: #0056b3;
-    --white-hover-color: #ececec;
-    --gray-color: #ececec;
-    --gray-hover-color: #dadada;
-    --gray-font-color: gray;
-    --highlight-color1: #00d9ff;
-    --highlight-color2: #4000ff;
+.border-bottom {
+    border-bottom: 1px solid rgba(91, 94, 110, 0.1);
+    box-shadow: 0px 1px 2px rgba(91, 94, 110, 0.1);
 }
