@@ -2,11 +2,14 @@
     <div class="intro-container">
         <div class="intro-main">
             <h1>선생님께서 찾는&nbsp;</h1>
-            <h1 class="highlight animate__animated">{{ modifierList[modifierIdx] }}</h1>
+            <h1 class="highlight animate__animated animate__fadeIn">{{ modifierList[modifierIdx] }}</h1>
             <h1>&nbsp;일꾼</h1>
         </div>
         <div class="intro-sub">
             <h3>원하는 개발을 해드릴 수 있습니다.</h3>
+        </div>
+        <div class="hire">
+            <button class="button blue">채용하기</button>
         </div>
     </div>
 </template>
@@ -19,7 +22,7 @@ export default {
     data() {
         return {
             modifierIdx: 0,
-            modifierList: ['만능', '천재', '편한', '참된', '착한'],
+            modifierList: ['만능', '천재', '편한', '참된', '착한', '빠른'],
             interval: 3000
         }
     },
