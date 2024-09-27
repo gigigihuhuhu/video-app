@@ -11,28 +11,45 @@
         <div class="hire">
             <button class="button blue">채용하기</button>
         </div>
+        <ProjectSection :items="projects"></ProjectSection>
     </div>
 </template>
   
 <script>
 import 'animate.css';
+import ProjectSection from './ProjectSection.vue';
 
 export default {
     name: 'IntroMessage',
+    components: {
+        ProjectSection
+    },
     data() {
         return {
             modifierIdx: 0,
             modifierList: ['만능', '천재', '편한', '참된', '착한', '빠른'],
-            interval: 3000
+            interval: 3000,
+            intervalId: null,
+            projects: [
+                {
+                    title: '화상 채팅',
+                    image: require('@/assets/logo.png'),
+                    path: '/video-call/prev',
+                },
+            ]
         }
     },
 
     mounted() {
         let interval = this.interval;
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             this.switchModifier();
             this.triggerAnimation();
         }, interval);
+    },
+
+    unmounted() {
+        clearInterval(this.intervalId)
     },
 
     methods: {
@@ -56,12 +73,13 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    align-items: center;
 }
 
 .intro-main {
     display: flex;
     flex-direction: row;
-    font-size: xxx-large;
+    font-size: 3rem;
     font-weight: 700;
 }
 
@@ -79,10 +97,4 @@ export default {
     /* 텍스트 색상을 투명하게 만듦 */
     color: transparent;
 }
-
-.fadeIn {
-    animation: fadeIn;
-    animation-duration: 1s;
-}
 </style>
-  

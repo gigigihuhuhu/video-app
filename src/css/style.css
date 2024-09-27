@@ -59,3 +59,25 @@ html {
     border-bottom: 1px solid rgba(91, 94, 110, 0.1);
     box-shadow: 0px 1px 2px rgba(91, 94, 110, 0.1);
 }
+
+.scroll-invisible {
+    overflow: auto;
+    -ms-overflow-style: none;
+    /* IE, Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    scroll-behavior: smooth;
+}
+
+.scroll-invisible::-webkit-scrollbar {
+    display: none;
+}
+
+.arrow-in-circle {
+    width: 2.4rem;
+    height: 2.4rem;
+    background-image: url('@/assets/arrow-in-circle.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
