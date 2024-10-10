@@ -184,3 +184,5 @@ Screen sharing functions
 ### TO-DO
 1. 몰래 슬쩍 들어가기 기능
 2. 채팅창 구현
+
+# Emoji

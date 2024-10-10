@@ -20,7 +20,7 @@ import 'animate.css';
 import ProjectSection from './ProjectSection.vue';
 
 export default {
-    name: 'IntroMessage',
+    name: 'IntroMessageSection',
     components: {
         ProjectSection
     },
@@ -31,6 +31,41 @@ export default {
             interval: 3000,
             intervalId: null,
             projects: [
+                {
+                    title: '화상 채팅',
+                    image: require('@/assets/logo.png'),
+                    path: '/video-call/prev',
+                },
+                {
+                    title: '화상 채팅',
+                    image: require('@/assets/logo.png'),
+                    path: '/video-call/prev',
+                },
+                {
+                    title: '화상 채팅',
+                    image: require('@/assets/logo.png'),
+                    path: '/video-call/prev',
+                },
+                {
+                    title: '화상 채팅',
+                    image: require('@/assets/logo.png'),
+                    path: '/video-call/prev',
+                },
+                {
+                    title: '화상 채팅',
+                    image: require('@/assets/logo.png'),
+                    path: '/video-call/prev',
+                },
+                {
+                    title: '화상 채팅',
+                    image: require('@/assets/logo.png'),
+                    path: '/video-call/prev',
+                },
+                {
+                    title: '화상 채팅',
+                    image: require('@/assets/logo.png'),
+                    path: '/video-call/prev',
+                },
                 {
                     title: '화상 채팅',
                     image: require('@/assets/logo.png'),

@@ -74,6 +74,10 @@ header {
     margin: auto;
     height: 3.5rem;
     padding: 0.5rem;
+    position: fixed;
+    width: 100vw;
+    background-color: white;
+    z-index: 1;
 }
 
 .nav-bar {
