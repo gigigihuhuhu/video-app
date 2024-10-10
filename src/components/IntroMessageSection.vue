@@ -11,18 +11,18 @@
         <div class="hire">
             <button class="button blue">채용하기</button>
         </div>
-        <ProjectSection :items="projects"></ProjectSection>
+        <Carousel :items="projects"></Carousel>
     </div>
 </template>
   
 <script>
 import 'animate.css';
-import ProjectSection from './ProjectSection.vue';
+import Carousel from './Carousel.vue';
 
 export default {
     name: 'IntroMessageSection',
     components: {
-        ProjectSection
+        Carousel
     },
     data() {
         return {

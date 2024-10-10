@@ -15,7 +15,7 @@
   
 <script>
 export default {
-  name: 'ProjectSection',
+  name: 'CarouselVue',
   props: {
     items: {
       type: Array,
