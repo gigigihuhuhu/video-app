@@ -88,8 +88,8 @@ export default {
     border-radius: 8px;
     padding: 1em;
     box-shadow:
-        5px 5px 5px rgba(91, 94, 110, 0.1),
-        -5px -5px 5px rgba(91, 94, 110, 0.1);
+        5px 5px 5px var(--lightgray-color),
+        -5px -5px 5px var(--lightgray-color);
     z-index: 1;
 }
 

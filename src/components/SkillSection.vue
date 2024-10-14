@@ -4,32 +4,27 @@
         <div class="info-container">
             <IconInfo class="category" value="Language" icon="memo" iconType="emoji"></IconInfo>
             <div class="stacks">
-                <IconInfo v-for="(stack, index) in languages" :key="index" :value="stack.name" :icon="stack.icon"
-                    :color="stack.color" type="card"></IconInfo>
+                <IconInfo v-for="(stack, index) in languages" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow"></IconInfo>
             </div>
 
             <IconInfo class="category" value="Frontend" icon="desktop_computer" iconType="emoji"></IconInfo>
             <div class="stacks">
-                <IconInfo v-for="(stack, index) in frontends" :key="index" :value="stack.name" :icon="stack.icon"
-                    :color="stack.color" type="card" :iconType="stack.iconType"></IconInfo>
+                <IconInfo v-for="(stack, index) in frontends" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
             </div>
 
             <IconInfo class="category" value="Backend" icon="package" iconType="emoji"></IconInfo>
             <div class="stacks">
-                <IconInfo v-for="(stack, index) in backends" :key="index" :value="stack.name" :icon="stack.icon"
-                    :color="stack.color" type="card" :iconType="stack.iconType"></IconInfo>
+                <IconInfo v-for="(stack, index) in backends" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
             </div>
 
             <IconInfo class="category" value="Database" icon="file_cabinet" iconType="emoji"></IconInfo>
             <div class="stacks">
-                <IconInfo v-for="(stack, index) in database" :key="index" :value="stack.name" :icon="stack.icon"
-                    :color="stack.color" type="card" :iconType="stack.iconType"></IconInfo>
+                <IconInfo v-for="(stack, index) in database" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
             </div>
 
             <IconInfo class="category" value="DevOps" icon="robot" iconType="emoji"></IconInfo>
             <div class="stacks">
-                <IconInfo v-for="(stack, index) in devOps" :key="index" :value="stack.name" :icon="stack.icon"
-                    :color="stack.color" type="card" :iconType="stack.iconType"></IconInfo>
+                <IconInfo v-for="(stack, index) in devOps" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
             </div>
         </div>
     </div>
@@ -93,19 +88,11 @@ export default {
 </script>
 
 <style scoped>
-.title {
-    font-size: 3rem;
-    font-weight: 600;
-    margin-bottom: 3rem;
-    text-align: left;
-}
-
 .info-container {
     display: grid;
     grid-template-columns: 2fr 8fr;
     row-gap: 3rem;
     font-size: 1rem;
-    font-weight: 500;
     align-items: start;
 }
 
@@ -117,6 +104,5 @@ export default {
 
 .category {
     font-size: 1.4rem;
-    font-weight: 400;
 }
 </style>

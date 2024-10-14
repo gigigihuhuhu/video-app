@@ -3,6 +3,7 @@
     <IntroMessageSection class="section" />
     <AboutSection class="section" />
     <SkillSection class="section" />
+    <ProjectSection class="section" />
   </div>
 </template>
   
@@ -18,6 +19,7 @@
 import IntroMessageSection from './IntroMessageSection.vue';
 import AboutSection from './AboutSection.vue';
 import SkillSection from './SkillSection.vue';
+import ProjectSection from './ProjectSection.vue';
 
 export default {
   name: 'HomeVue',
@@ -25,12 +27,13 @@ export default {
     IntroMessageSection,
     AboutSection,
     SkillSection,
+    ProjectSection
   },
 
   data() {
     return {
       currSection: 0,
-      sectionCnt: 3,
+      sectionCnt: 4,
       isScrolling: false,
       scrollTime: 800
     }

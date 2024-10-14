@@ -2,8 +2,8 @@
     <div class="info-item" :style="infoItemStyle">
         <div v-html="$function.renderMarkdownEmoji(icon)" :style="emojiStyle" v-if="iconType==='emoji'"></div>
         <img :style="iconStyle" :src="icon" v-if="iconType==='file'">
-        <span class="text">
-            <h1 v-if="label">{{ label }}</h1>
+        <span class="text" :style="textStyle">
+            <h1 v-if="label" class="label">{{ label }}</h1>
             <h1 v-if="value">{{ value }}</h1>
         </span>
     </div>
@@ -23,13 +23,13 @@ export default {
             type: String,
             default: () => require('@/assets/not-found.png'),
         },
-        color: {
+        fontColor: {
             type: String,
-            default: () => 'white',
+            default: () => 'black',
         },
-        type: {
+        borderType: {
             type: String,
-            default: () => 'item',
+            default: () => 'clean',
         },
         iconType: {
             type: String,
@@ -38,26 +38,36 @@ export default {
     },
     computed: {
         infoItemStyle() {
-            if(this.type === 'card'){
-                return {
-                    padding: '0.2em',
-                    paddingRight: '0.4em',
-                    borderRadius: '8px',
-                    boxShadow: '3px 3px 3px rgba(91, 94, 110, 0.1), -3px -3px 3px rgba(91, 94, 110, 0.1)',
-                }
-            } else {
-                return {}
+            let style = new Object();
+            switch(this.borderType){
+                default:
+                    return style;
+                case 'clean':
+                    return style;
+                case 'shadow':
+                    style['boxShadow'] ='2px 2px 3px var(--lightgray-color), -2px -2px 3px var(--lightgray-color)';
+                    break;
+                case 'line' :
+                    style['border'] ='1px solid var(--lightgray-color)';
+                    break;
             }
+            style['padding'] ='0.2em';
+            style['paddingRight'] ='0.5em';
+            style['paddingLeft'] ='0.4em';
+            style['borderRadius'] ='32px';
+            
+            return style;
         },
         iconStyle() {
             let style = new Object();
-            style['width'] ='1.5em';
-            style['height'] ='1.5em';
-            style['paddingRight'] ='0.5em';
             if (this.label != null && this.value != null) {
                 style['width'] ='2.5em';
                 style['height'] ='2.5em';
                 style['paddingRight'] ='1em';
+            } else{
+                style['width'] ='1.5em';
+                style['height'] ='1.5em';
+                style['paddingRight'] ='0.5em';
             }
 
             return style;
@@ -73,6 +83,11 @@ export default {
                 style['font-size'] ='1.15em';
                 style['paddingRight'] ='0.4em';
             }
+            return style;
+        },
+        textStyle() {
+            let style = new Object();
+            style['color'] = this.fontColor;
             return style;
         },
 }
@@ -93,5 +108,9 @@ export default {
 h1 {
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
+}
+
+.label {
+    font-weight: 500;
 }
 </style>
