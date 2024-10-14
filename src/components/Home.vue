@@ -4,6 +4,7 @@
     <AboutSection class="section" />
     <SkillSection class="section" />
     <ProjectSection class="section" />
+    <ProjectSection class="section" />
   </div>
 </template>
   
@@ -32,16 +33,23 @@ export default {
 
   data() {
     return {
-      currSection: 0,
-      sectionCnt: 4,
+      sections: [
+        { scrollType: 'section' },
+        { scrollType: 'section' },
+        { scrollType: 'section' },
+        { scrollType: 'normal' },
+        { scrollType: 'section' },
+      ],
       isScrolling: false,
-      scrollTime: 800
+      scrollTime: 500
     }
   },
 
   mounted() {
     window.addEventListener("wheel", this.handleWheel, { passive: false });
     window.addEventListener("keydown", this.handleKeyDown);
+    this.initSectionYs();
+    console.log(this.sections)
   },
 
   unmounted() {
@@ -50,51 +58,119 @@ export default {
   },
 
   methods: {
-    scrollToNextSection() {
-      if(this.currSection < this.sectionCnt - 1){
-        this.currSection++;
-        this.scrollToSection(this.currSection);
+    initSectionYs() {
+      this.sections[0]['startY'] = 0;
+      for (let i = 1; i < this.$refs.container.children.length; i++) {
+        this.sections[i-1]['endY'] = this.sections[i]['startY'] = this.$refs.container.children[i].offsetTop;
+      }
+      const lastIdx = this.$refs.container.children.length-1;
+      this.sections[lastIdx]['endY'] = this.$refs.container.children[lastIdx].offsetTop + this.$refs.container.children[lastIdx].offsetHeight;
+    },
+
+    getCurrScrollY() {
+      return (window.scrollY || window.pageYOffset);
+    },
+
+    getActiveSection() {
+      const scrollY = this.getCurrScrollY();
+      let activeSection;
+      this.sections.forEach((section, index) => {
+        if (scrollY >= section.startY && scrollY < section.endY) {
+          activeSection = index;
+        }
+      });
+      return activeSection;
+    },
+
+    isScrollInTail(currSection) {
+      const scrollY = this.getCurrScrollY();
+      return this.sections[currSection].endY - window.innerHeight/2 < scrollY;
+    },
+
+    scrollToNextSection(currSection) {
+      if (currSection < this.sections.length - 1) {
+        const nextSection = currSection + 1;
+        this.scrollToSectionTop(nextSection);
       }
     },
 
-    scrollToPrevSection() {
-      if(this.currSection > 0){
-        this.currSection--;
-        this.scrollToSection(this.currSection);
+    scrollToPrevSection(currSection) {
+      if (currSection > 0) {
+        const prevSection = currSection - 1;
+        switch (this.sections[prevSection].scrollType) {
+          case 'normal':
+            this.scrollToSectionBottom(prevSection);
+            break;
+          case 'section':
+            this.scrollToSectionTop(prevSection);
+            break;
+        }
       }
     },
 
-    scrollToSection(sectionIdx) {
-      const sectionElement = this.$refs.container.children[sectionIdx];
-      sectionElement.scrollIntoView({ behavior: "smooth" });
+    scrollToSectionTop(sectionIdx) {
+      this.isScrolling = true;
+      window.scrollTo({
+        top: this.sections[sectionIdx].startY,
+        behavior: 'smooth'
+      });
+
+      setTimeout(() => {
+        this.isScrolling = false;
+      }, this.scrollTime);
+    },
+
+    scrollToSectionBottom(sectionIdx) {
+      this.isScrolling = true;
+      window.scrollTo({
+        top: this.sections[sectionIdx].endY - window.innerHeight,
+        behavior: 'smooth'
+      });
+
+      setTimeout(() => {
+        this.isScrolling = false;
+      }, this.scrollTime);
     },
 
     handleKeyDown(event) {
+      const currSection = this.getActiveSection();
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        this.scrollToNextSection();
+        this.scrollToNextSection(currSection);
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
-        this.scrollToPrevSection();
+        this.scrollToPrevSection(currSection);
       }
     },
 
     handleWheel(event) {
-      event.preventDefault();
-      if(this.isScrolling) {
-        console.log("return")
-        return;
+      const currSection = this.getActiveSection();
+      console.log('currSection',currSection)
+      switch (this.sections[currSection].scrollType) {
+        case 'normal':
+          if (event.deltaY > 0) {
+            if(this.isScrollInTail(currSection)){
+              event.preventDefault();
+              this.scrollToNextSection(currSection);
+            }
+          }
+          return;
+        case 'section':
+          event.preventDefault();
+          if (this.isScrolling) {
+            return;
+          }
+          if (event.deltaY > 0) {
+            this.scrollToNextSection(currSection);
+          } else {
+            if(this.isScrollInTail(currSection)){
+              this.scrollToSectionTop(currSection);
+            }
+            else{
+              this.scrollToPrevSection(currSection);
+            }
+          }
       }
-      this.isScrolling = true;
-      if (event.deltaY > 0) {
-        console.log('next')
-        this.scrollToNextSection();
-      } else {
-        this.scrollToPrevSection();
-      }
-      setTimeout(() => {
-        this.isScrolling = false;
-      }, this.scrollTime);
     },
   },
 };
