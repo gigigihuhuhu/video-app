@@ -41,7 +41,7 @@ export default {
         { scrollType: 'section' },
       ],
       isScrolling: false,
-      scrollTime: 500
+      scrollTime: 800
     }
   },
 
@@ -109,6 +109,9 @@ export default {
     },
 
     scrollToSectionTop(sectionIdx) {
+      if (this.isScrolling) {
+        return;
+      }
       this.isScrolling = true;
       window.scrollTo({
         top: this.sections[sectionIdx].startY,
@@ -121,6 +124,9 @@ export default {
     },
 
     scrollToSectionBottom(sectionIdx) {
+      if (this.isScrolling) {
+        return;
+      }
       this.isScrolling = true;
       window.scrollTo({
         top: this.sections[sectionIdx].endY - window.innerHeight,
@@ -134,13 +140,31 @@ export default {
 
     handleKeyDown(event) {
       const currSection = this.getActiveSection();
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
-        this.scrollToNextSection(currSection);
-      } else if (event.key === "ArrowUp") {
-        event.preventDefault();
-        this.scrollToPrevSection(currSection);
+      
+      switch (this.sections[currSection].scrollType) {
+        case 'normal':
+          if (event.deltaY > 0) {
+            if(this.isScrollInTail(currSection)){
+              event.preventDefault();
+              this.scrollToNextSection(currSection);
+            }
+          }
+          return;
+        case 'section':
+          if (event.key === "ArrowDown") {
+            event.preventDefault();
+            this.scrollToNextSection(currSection);
+          } else if (event.key === "ArrowUp") {
+            event.preventDefault();
+            if(this.isScrollInTail(currSection)){
+              this.scrollToSectionTop(currSection);
+            }
+            else{
+              this.scrollToPrevSection(currSection);
+            }
+          }
       }
+      
     },
 
     handleWheel(event) {
@@ -157,12 +181,10 @@ export default {
           return;
         case 'section':
           event.preventDefault();
-          if (this.isScrolling) {
-            return;
-          }
           if (event.deltaY > 0) {
             this.scrollToNextSection(currSection);
-          } else {
+          } 
+          else {
             if(this.isScrollInTail(currSection)){
               this.scrollToSectionTop(currSection);
             }
