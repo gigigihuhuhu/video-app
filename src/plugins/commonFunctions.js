@@ -10,13 +10,11 @@ export default {
       renderMarkdown(content) {
         const md = new markdownit().use(emoji);
         const res = md.render(content);
-        console.log(res);
         return res;
       },
       renderMarkdownEmoji(content) {
         const md = new markdownit().use(emoji);
         const res = md.render(`:${content}:`);
-        console.log(res);
         return res;
       },
     };
