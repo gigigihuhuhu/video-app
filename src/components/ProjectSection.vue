@@ -4,7 +4,7 @@
         <div class="card-container">
             <Card v-for="(project, index) in projects" :key="index" :title="project.title"
                 :titleDetail="project.titleDetail" :description="project.description" :details="project.details"
-                :stacks="project.stacks" />
+                :stacks="project.stacks" decorationType="shadow" />
         </div>
     </div>
 </template>

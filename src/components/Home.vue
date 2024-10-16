@@ -4,7 +4,10 @@
     <AboutSection class="section" />
     <SkillSection class="section" />
     <ProjectSection class="section" />
-    <ProjectSection class="section" />
+    <CertificateSection class="section" />
+    <LanguageSection class="section" />
+    <EducationSection class="section" />
+    <LinksSection class="section" />
   </div>
 </template>
   
@@ -21,6 +24,10 @@ import IntroMessageSection from './IntroMessageSection.vue';
 import AboutSection from './AboutSection.vue';
 import SkillSection from './SkillSection.vue';
 import ProjectSection from './ProjectSection.vue';
+import CertificateSection from './CertificateSection.vue';
+import LanguageSection from './LanguageSection.vue';
+import EducationSection from './EducationSection.vue';
+import LinksSection from './LinksSection.vue';
 
 export default {
   name: 'HomeVue',
@@ -28,7 +35,11 @@ export default {
     IntroMessageSection,
     AboutSection,
     SkillSection,
-    ProjectSection
+    ProjectSection,
+    CertificateSection,
+    LanguageSection,
+    EducationSection,
+    LinksSection,
   },
 
   data() {
@@ -39,23 +50,26 @@ export default {
         { scrollType: 'section' },
         { scrollType: 'normal' },
         { scrollType: 'section' },
+        { scrollType: 'section' },
+        { scrollType: 'section' },
+        { scrollType: 'normal' },
       ],
       isScrolling: false,
       scrollTime: 800
     }
   },
 
-  mounted() {
-    window.addEventListener("wheel", this.handleWheel, { passive: false });
-    window.addEventListener("keydown", this.handleKeyDown);
-    this.initSectionYs();
-    console.log(this.sections)
-  },
+  // mounted() {
+  //   window.addEventListener("wheel", this.handleWheel, { passive: false });
+  //   window.addEventListener("keydown", this.handleKeyDown);
+  //   this.initSectionYs();
+  //   console.log(this.sections)
+  // },
 
-  unmounted() {
-    window.removeEventListener("wheel", this.handleWheel, { passive: false });
-    window.removeEventListener("keydown", this.handleKeyDown);
-  },
+  // unmounted() {
+  //   window.removeEventListener("wheel", this.handleWheel, { passive: false });
+  //   window.removeEventListener("keydown", this.handleKeyDown);
+  // },
 
   methods: {
     initSectionYs() {

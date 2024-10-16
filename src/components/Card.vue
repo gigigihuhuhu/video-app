@@ -1,32 +1,32 @@
 <template>
-    <div class="card-wrapper">
+    <div class="card-wrapper" :style="cardWrapperStyle" :class="hoverClass" @click="gotoPath()">
+        <slot name="top"></slot>
+        <slot name="left"></slot>
         <h1 class="title">{{ title }}</h1>
         <h5 class="title-detail" v-if="titleDetail">{{ titleDetail }}</h5>
-        <hr />
-        <h2 class="description">{{ description }}</h2>
-        <ul>
+        <hr v-if="description || details" />
+        <h2 v-if="description" class="description">{{ description }}</h2>
+        <ul v-if="details">
             <li v-for="(data, index) of details" :key="index">{{ data }}</li>
         </ul>
-        <div class="stacks" v-if="stacks.length > 0"> <!-- TODO: to slot-->
+        <div class="stacks" v-if="stacks">
             <IconInfo v-for="(stack, index) in stacks" :key="index" :value="stack.name" :icon="stack.icon"
                 border-type="line" font-color="var(--gray-font-color)" />
         </div>
-        <div class="button-container"> <!-- TODO: to slot-->
-            <button class="button white">
-                <MarkdownContent content=':page_facing_up: README' />
-            </button>
-        </div>
+        <img v-if="path" src="@/assets/arrow.svg" class="arrow">
+        <slot name="right"></slot>
+        <slot name="bottom"></slot>
     </div>
 </template>
 
 <script>
 import IconInfo from "@/components/IconInfo.vue";
-import MarkdownContent from "@/components/MarkdownContent.vue";
 
 export default {
     name: 'CardVue',
     components: {
-        IconInfo, MarkdownContent
+        IconInfo,
+        // MarkdownContent
     },
 
     props: {
@@ -36,28 +36,49 @@ export default {
         },
         titleDetail: {
             type: String,
-            default: 'Title detail of this card'
         },
         description: {
             type: String,
-            default: 'Description of this card'
         },
         details: {
             type: Array,
-            default: () => [
-                'First detail of this card',
-                'Second detail of this card',
-                'Third detail of this card',
-                'Forth detail of this card',
-            ]
+            // ['First detail','Second detail']
         },
         stacks: { // Temporary, TODO: define Stack class and receive Stack instance to initiate stacks
-            type: Array,
-            default: () => [
-                { name: 'JavaScript', icon: require('@/assets/javascript.svg'), iconType: 'file' },
-                { name: 'HTML/CSS', icon: require('@/assets/html5.svg'), iconType: 'file' },
-                { name: 'Vue.js', icon: require('@/assets/vuejs.svg'), iconType: 'file' },
-            ]
+            type: Array, // [{ name: 'JavaScript', icon: require('@/assets/javascript.svg'), iconType: 'file' }]
+        },
+        decorationType: {
+            type: String,
+            default: 'clear'
+        },
+        path: {
+            type: String,
+            default: null
+        },
+    },
+
+    computed: {
+        cardWrapperStyle() {
+            let style = new Object();
+            switch (this.decorationType) {
+                case 'shadow':
+                    style['boxShadow'] = 'inset 5px 0px 0px var(--blue-color)';
+                    break;
+                case 'clear':
+                    break;
+            }
+            return style;
+        },
+        hoverClass() {
+            return this.path ? 'card-hover' : '';
+        }
+    },
+
+    methods: {
+        gotoPath() {
+            if (this.path != null) {
+                this.$function.goto(this.path);
+            }
         }
     }
 }
@@ -91,10 +112,32 @@ hr {
     border: 1px solid var(--lightgray-color);
     border-radius: 16px;
     text-align: left;
-    box-shadow: inset 5px 0px 0px var(--blue-color);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+.card-hover {
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.card-hover:hover .arrow {
+    opacity: 1;
+}
+
+.arrow {
+    position: absolute;
+    right: 0.3rem;
+    bottom: 0.8rem;
+    width: 2rem;
+    opacity: 0.1;
+    transition: opacity 0.3s ease;
 }
 
 .stacks {
@@ -106,17 +149,6 @@ hr {
     flex-wrap: wrap;
     font-size: 0.8rem;
     gap: 0.5rem;
-}
-
-.button-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.button-container>.button {
-    padding: 0.4rem 0.6rem;
 }
 
 ul {
