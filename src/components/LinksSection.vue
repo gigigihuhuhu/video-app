@@ -1,5 +1,5 @@
 <template>
-    <div class="responsive-container">
+    <div class="section">
         <MarkdownContent content=':link: Links' class="title" />
         <div class="card-container">
             <Card v-for="(content, index) in contents" :key="index" :title="content.title"
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style scoped>
-.responsive-container {
+.section {
     width: 80%;
     margin: 0 auto;
     display: flex;
@@ -70,7 +70,7 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .responsive-container {
+  .section {
     width: 95%;
     align-items: center;
   }
