@@ -61,6 +61,12 @@ html {
     box-shadow: 0px 1px 2px var(--lightgray-color);
 }
 
+.border {
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid var(--lightgray-color);
+}
+
 .scroll-invisible {
     overflow: auto;
     -ms-overflow-style: none;
@@ -83,9 +89,23 @@ html {
     cursor: pointer;
 }
 
-.section > .title {
+.section>.title {
     font-size: 3rem;
     font-weight: 600;
     margin-bottom: 2rem;
     text-align: left;
+}
+
+@media (max-width: 768px) {
+    .section>.title {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .section>.title {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
 }

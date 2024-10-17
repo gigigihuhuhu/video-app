@@ -1,7 +1,7 @@
 <template>
     <div>
         <MarkdownContent content=':rocket: 기술 스택' class="title"/>
-        <div class="info-container">
+        <div class="info-container border">
             <div class="stack-container">
                 <IconInfo class="category" value="Language" icon="memo" iconType="emoji"></IconInfo>
                 <div class="stacks">
@@ -103,9 +103,6 @@ export default {
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     row-gap: 4rem;
     align-items: start;
-    padding: 2rem;
-    border-radius: 16px;
-    border: 1px solid var(--lightgray-color);
 }
 
 .stack-container {

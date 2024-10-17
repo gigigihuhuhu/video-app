@@ -1,7 +1,7 @@
 <template>
   <div>
     <MarkdownContent class="title" content=":tipping_hand_person: 안녕하세요!" />
-    <div class="info-container">
+    <div class="info-container border">
       <IconInfo label="이름" value="박경수" icon="smile" iconType="emoji"></IconInfo>
       <IconInfo label="생년월일" value="1990.08.12" icon="birthday" iconType="emoji"></IconInfo>
       <IconInfo label="위치" value="서울 서초구" icon="round_pushpin" iconType="emoji"></IconInfo>

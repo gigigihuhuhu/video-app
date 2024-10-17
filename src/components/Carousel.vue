@@ -135,7 +135,7 @@ export default {
   width: 12rem;
   height: 16rem;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 16px;
   transition: transform 0.3s ease;
   overflow: hidden;
   cursor: pointer;

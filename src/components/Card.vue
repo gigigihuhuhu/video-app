@@ -1,5 +1,5 @@
 <template>
-    <div class="card-wrapper" :style="cardWrapperStyle" :class="hoverClass" @click="gotoPath()">
+    <div class="card-wrapper border" :style="cardWrapperStyle" :class="hoverClass" @click="gotoPath()">
         <slot name="top"></slot>
         <div class="top-wrapper">
             <slot name="top-left"></slot>
@@ -117,9 +117,6 @@ hr {
 }
 
 .card-wrapper {
-    padding: 2rem;
-    border: 1px solid var(--lightgray-color);
-    border-radius: 16px;
     text-align: left;
     display: flex;
     flex-direction: column;

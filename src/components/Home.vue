@@ -229,7 +229,7 @@ export default {
 @media (max-width: 768px) {
   .section {
     width: 95%;
-    align-items: center;
+
   }
 }
 </style>
