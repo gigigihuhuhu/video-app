@@ -102,6 +102,11 @@ html {
     text-align: left;
 }
 
+.category {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
 @media (max-width: 768px) {
     .section>.title {
         font-size: 2.8rem;
@@ -114,8 +119,14 @@ html {
 
 @media (max-width: 480px) {
     .section>.title {
-        font-size: 2.5rem;
+        font-size: 2rem;
+        font-weight: 500;
         margin-bottom: 1.5rem;
         text-align: center;
+    }
+
+    .category {
+        font-size: 1.3rem;
+        font-weight: 400;
     }
 }

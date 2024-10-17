@@ -116,9 +116,4 @@ export default {
     flex-wrap: wrap;
     gap: 1rem;
 }
-
-.category {
-    font-size: 1.4rem;
-    font-weight: 500;
-}
 </style>

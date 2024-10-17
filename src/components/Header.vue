@@ -9,7 +9,7 @@
                     </div>
                 </li>
                 <li>
-                    <DropdownMenu title="데모 프로젝트" :items="demoProjects" />
+                    <DropdownMenu class="projects" title="데모 프로젝트" :items="demoProjects" />
                 </li>
                 <li>
                     <button class="button transparent contact">
@@ -119,6 +119,15 @@ header {
 @media (max-width: 650px) {
     .contact {
         display: none;
+    }
+
+    .nav-bar {
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
     }
 }
 

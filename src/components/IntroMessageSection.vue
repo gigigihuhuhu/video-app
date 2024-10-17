@@ -114,8 +114,8 @@ export default {
 .intro-main {
     display: flex;
     flex-direction: row;
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: 4rem;
+    font-weight: 600;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -133,5 +133,30 @@ export default {
 
     /* 텍스트 색상을 투명하게 만듦 */
     color: transparent;
+}
+
+@media (max-width: 1200px) {
+    .intro-main {
+        font-size: 3rem;
+    }
+
+    .intro-sub {
+        font-size: 1.3rem;
+    }
+
+    .intro-container {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .intro-main {
+        font-size: 2rem;
+    }
+
+    .intro-sub {
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
 }
 </style>
