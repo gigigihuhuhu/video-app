@@ -89,6 +89,12 @@ html {
     cursor: pointer;
 }
 
+.section {
+    padding: 3rem 0;
+    max-width: 88rem;
+    width: 80%;
+}
+
 .section>.title {
     font-size: 3rem;
     font-weight: 600;
@@ -99,6 +105,10 @@ html {
 @media (max-width: 768px) {
     .section>.title {
         font-size: 2.8rem;
+    }
+
+    .section {
+        width: 95%;
     }
 }
 

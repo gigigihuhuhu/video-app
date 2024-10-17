@@ -1,6 +1,6 @@
 <template>
   <div class="home-container" ref="container">
-    <IntroMessageSection class="section" />
+    <IntroMessageSection class="carousel section" />
     <AboutSection class="section" />
     <SkillSection class="section" />
     <ProjectSection class="section" />
@@ -220,16 +220,9 @@ export default {
   justify-content: center;
 }
 
-.section {
+.carousel {
   padding: 3rem 0;
-  width: 80%;
-  max-width: 88rem;
-}
-
-@media (max-width: 768px) {
-  .section {
-    width: 95%;
-
-  }
+  max-width: 98rem;
+  width: 100%;
 }
 </style>
