@@ -1,10 +1,10 @@
 <template>
-  <div class="project-wrapper">
-    <div class="project-container scroll-invisible" ref="projectContainer">
-      <div v-for="(project, index) in items" :key="index" class="project-item-wrapper">
-        <div class="project-item" :style="{ backgroundColor: color[index % color.length] }" @click="$function.goto(project.path)">
-          <h5 class="project-title">{{ project.title }}</h5>
-          <img :src="project.image">
+  <div class="carousel">
+    <div class="item-container scroll-invisible" ref="itemContainer">
+      <div v-for="(item, index) in items" :key="index" class="item-wrapper">
+        <div class="item" :style="{ backgroundColor: color[index % color.length] }" @click="$function.goto(item.path)">
+          <h5 class="item-title">{{ item.title }}</h5>
+          <img :src="item.image">
         </div>
       </div>
     </div>
@@ -21,19 +21,19 @@ export default {
       type: Array,
       default: () => [
         {
-          title: 'Project One',
+          title: 'Title One',
           image: require('@/assets/logo.png'),
-          path: 'proj1',
+          path: 'path1',
         },
         {
-          title: 'Project Two',
+          title: 'Title Two',
           image: require('@/assets/logo.png'),
-          path: 'proj2',
+          path: 'path2',
         },
         {
-          title: 'Project Three',
+          title: 'Title Three',
           image: require('@/assets/logo.png'),
-          path: 'proj3',
+          path: 'path3',
         },
       ],
     }
@@ -52,13 +52,13 @@ export default {
 
   watch: {
     scrollLeft(val) {
-      this.$refs.projectContainer.scrollLeft = val;
+      this.$refs.itemContainer.scrollLeft = val;
     }
   },
 
   mounted() {
-    this.scrollLeftMax = this.$refs.projectContainer.scrollWidth - this.$refs.projectContainer.offsetWidth
-    this.$refs.projectContainer.scrollLeft = this.scrollLeft = this.scrollLeftMax / 2;
+    this.scrollLeftMax = this.$refs.itemContainer.scrollWidth - this.$refs.itemContainer.offsetWidth
+    this.$refs.itemContainer.scrollLeft = this.scrollLeft = this.scrollLeftMax / 2;
     this.scrollUnit = this.scrollLeftMax / this.desiredScrollCount;
 
     this.checkScrollLocation();
@@ -85,8 +85,8 @@ export default {
           this.showLeftButton = true;
         }
 
-        if (this.scrollLeft + this.$refs.projectContainer.offsetWidth >= this.$refs.projectContainer.scrollWidth) {
-          this.scrollLeft = this.$refs.projectContainer.scrollWidth - this.$refs.projectContainer.offsetWidth;
+        if (this.scrollLeft + this.$refs.itemContainer.offsetWidth >= this.$refs.itemContainer.scrollWidth) {
+          this.scrollLeft = this.$refs.itemContainer.scrollWidth - this.$refs.itemContainer.offsetWidth;
           this.showRightButton = false;
         }
         else {
@@ -99,8 +99,9 @@ export default {
 </script>
 
 <style scoped>
-.project-wrapper {
+.carousel {
   position: relative;
+  width: 100%;
 }
 
 .button-left {
@@ -117,20 +118,20 @@ export default {
   transform: translateY(-50%) translateX(-150%);
 }
 
-.project-container {
+.item-container {
   margin-top: -0.7rem;
   max-width: 98rem;
   display: flex;
   flex-direction: row;
 }
 
-.project-item-wrapper {
+.item-wrapper {
   padding: 0.7rem;
   /* 너비가 줄어들지 않도록 설정 */
   flex-shrink: 0;
 }
 
-.project-item {
+.item {
   width: 12rem;
   height: 16rem;
   border: 1px solid #ddd;
@@ -140,12 +141,12 @@ export default {
   cursor: pointer;
 }
 
-.project-item:hover {
+.item:hover {
   background-color: var(--white-hover-color);
   transform: scale(1.1);
 }
 
-.project-title {
+.item-title {
   margin-top: 1.3rem;
   margin-bottom: 1.3rem;
   font-weight: 500;

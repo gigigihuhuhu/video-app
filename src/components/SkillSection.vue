@@ -100,7 +100,7 @@ export default {
 <style scoped>
 .info-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     row-gap: 4rem;
     align-items: start;
     padding: 2rem;
@@ -115,6 +115,7 @@ export default {
 }
 .stacks {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
 }

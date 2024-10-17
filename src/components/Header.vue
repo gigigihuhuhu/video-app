@@ -73,9 +73,9 @@ export default {
 header {
     margin: auto;
     height: 3.5rem;
-    padding: 0.5rem;
+    padding: 0.5rem 0;
     position: fixed;
-    width: 100vw;
+    width: 100%;
     background-color: white;
     z-index: 1;
 }
@@ -98,6 +98,11 @@ header {
 .logo {
     height: 3rem;
     padding-right: 1rem;
+    transition: transform 300ms ease;
+}
+
+.logo:hover {
+    transform: scale(1.03);
 }
 
 .login-container {
