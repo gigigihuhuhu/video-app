@@ -27,4 +27,8 @@ export default {
   -moz-osx-font-smoothing: grayscale; */
   text-align: center;
 }
+
+Header + *{
+  padding-top: 4rem;
+}
 </style>

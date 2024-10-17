@@ -1,5 +1,5 @@
 <template>
-    <div class="section">
+    <div>
         <MarkdownContent content=':link: Links' class="title" />
         <div class="card-container">
             <Card v-for="(content, index) in contents" :key="index" :title="content.title"
@@ -48,32 +48,19 @@ export default {
 </script>
 
 <style scoped>
-.section {
-    width: 80%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-
 .card-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     gap: 2rem;
-    justify-content: start;
-    width: 100%;
 }
 
 .top-image {
     height: 3rem;
     margin-bottom: 1rem;
+    object-fit: contain;
 }
 
 @media (max-width: 768px) {
-  .section {
-    width: 95%;
-    align-items: center;
-  }
   .card-container {
     justify-content: center;
   }

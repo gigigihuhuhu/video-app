@@ -116,6 +116,8 @@ export default {
     flex-direction: row;
     font-size: 3rem;
     font-weight: 700;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .intro-sub {

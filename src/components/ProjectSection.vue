@@ -114,7 +114,7 @@ export default {
 <style scoped>
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     gap: 2rem;
 }
 </style>

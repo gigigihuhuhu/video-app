@@ -1,20 +1,30 @@
 <template>
     <div class="card-wrapper" :style="cardWrapperStyle" :class="hoverClass" @click="gotoPath()">
         <slot name="top"></slot>
-        <slot name="left"></slot>
-        <h1 class="title">{{ title }}</h1>
-        <h5 class="title-detail" v-if="titleDetail">{{ titleDetail }}</h5>
+        <div class="top-wrapper">
+            <slot name="top-left"></slot>
+            <div class="top-content-wraper">
+                <h1 class="title">{{ title }}</h1>
+                <h5 class="title-detail" v-if="titleDetail">{{ titleDetail }}</h5>
+            </div>
+            <slot name="top-right"></slot>
+        </div>
         <hr v-if="description || details" />
         <h2 v-if="description" class="description">{{ description }}</h2>
-        <ul v-if="details">
-            <li v-for="(data, index) of details" :key="index">{{ data }}</li>
-        </ul>
-        <div class="stacks" v-if="stacks">
-            <IconInfo v-for="(stack, index) in stacks" :key="index" :value="stack.name" :icon="stack.icon"
-                border-type="line" font-color="var(--gray-font-color)" />
+        <div class="bottom-wrapper">
+            <slot name="bottom-left"></slot>
+            <div class="bottom-content-wraper">
+                <ul v-if="details">
+                    <li v-for="(data, index) of details" :key="index">{{ data }}</li>
+                </ul>
+                <div class="stacks" v-if="stacks">
+                    <IconInfo v-for="(stack, index) in stacks" :key="index" :value="stack.name" :icon="stack.icon"
+                        border-type="line" font-color="var(--gray-font-color)" />
+                </div>
+            </div>
+            <slot name="bottom-right"></slot>
         </div>
         <img v-if="path" src="@/assets/arrow.svg" class="arrow">
-        <slot name="right"></slot>
         <slot name="bottom"></slot>
     </div>
 </template>
@@ -32,7 +42,6 @@ export default {
     props: {
         title: {
             type: String,
-            default: 'Title of this card'
         },
         titleDetail: {
             type: String,
@@ -112,6 +121,26 @@ hr {
     border: 1px solid var(--lightgray-color);
     border-radius: 16px;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.top-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: end;
+}
+
+.bottom-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: start;
+}
+
+.top-content-wraper,.bottom-content-wraper {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

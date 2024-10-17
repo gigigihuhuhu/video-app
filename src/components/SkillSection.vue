@@ -2,29 +2,39 @@
     <div>
         <MarkdownContent content=':rocket: 기술 스택' class="title"/>
         <div class="info-container">
-            <IconInfo class="category" value="Language" icon="memo" iconType="emoji"></IconInfo>
-            <div class="stacks">
-                <IconInfo v-for="(stack, index) in languages" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow"></IconInfo>
+            <div class="stack-container">
+                <IconInfo class="category" value="Language" icon="memo" iconType="emoji"></IconInfo>
+                <div class="stacks">
+                    <IconInfo v-for="(stack, index) in languages" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow"></IconInfo>
+                </div>
             </div>
 
-            <IconInfo class="category" value="Frontend" icon="desktop_computer" iconType="emoji"></IconInfo>
-            <div class="stacks">
-                <IconInfo v-for="(stack, index) in frontends" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
+            <div class="stack-container">
+                <IconInfo class="category" value="Frontend" icon="desktop_computer" iconType="emoji"></IconInfo>
+                <div class="stacks">
+                    <IconInfo v-for="(stack, index) in frontends" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
+                </div>
             </div>
 
-            <IconInfo class="category" value="Backend" icon="package" iconType="emoji"></IconInfo>
-            <div class="stacks">
-                <IconInfo v-for="(stack, index) in backends" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
+            <div class="stack-container">
+                <IconInfo class="category" value="Backend" icon="package" iconType="emoji"></IconInfo>
+                <div class="stacks">
+                    <IconInfo v-for="(stack, index) in backends" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
+                </div>
             </div>
 
-            <IconInfo class="category" value="Database" icon="file_cabinet" iconType="emoji"></IconInfo>
-            <div class="stacks">
-                <IconInfo v-for="(stack, index) in database" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
+            <div class="stack-container">
+                <IconInfo class="category" value="Database" icon="file_cabinet" iconType="emoji"></IconInfo>
+                <div class="stacks">
+                    <IconInfo v-for="(stack, index) in database" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
+                </div>
             </div>
 
-            <IconInfo class="category" value="DevOps" icon="robot" iconType="emoji"></IconInfo>
-            <div class="stacks">
-                <IconInfo v-for="(stack, index) in devOps" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
+            <div class="stack-container">
+                <IconInfo class="category" value="DevOps" icon="robot" iconType="emoji"></IconInfo>
+                <div class="stacks">
+                    <IconInfo v-for="(stack, index) in devOps" :key="index" :value="stack.name" :icon="stack.icon" borderType="shadow" :iconType="stack.iconType"></IconInfo>
+                </div>
             </div>
         </div>
     </div>
@@ -90,12 +100,19 @@ export default {
 <style scoped>
 .info-container {
     display: grid;
-    grid-template-columns: 2fr 8fr;
-    row-gap: 3rem;
-    font-size: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    row-gap: 4rem;
     align-items: start;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid var(--lightgray-color);
 }
 
+.stack-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 .stacks {
     display: flex;
     flex-wrap: wrap;
@@ -104,5 +121,6 @@ export default {
 
 .category {
     font-size: 1.4rem;
+    font-weight: 500;
 }
 </style>

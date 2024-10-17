@@ -221,9 +221,15 @@ export default {
 }
 
 .section {
-  padding-top: 8rem;
-  padding-bottom: 4rem;
-  /* height: 100vh; */
-  max-width: 60rem;
+  padding: 3rem 0;
+  width: 80%;
+  max-width: 88rem;
+}
+
+@media (max-width: 768px) {
+  .section {
+    width: 95%;
+    align-items: center;
+  }
 }
 </style>
