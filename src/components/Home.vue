@@ -13,13 +13,6 @@
   
 
 <script>
-// TODO 보유 기술
-// 경력
-// Projects
-// 받은 교육
-// 학력
-// 언어
-// 취미
 import IntroMessageSection from './IntroMessageSection.vue';
 import AboutSection from './AboutSection.vue';
 import SkillSection from './SkillSection.vue';
