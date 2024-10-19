@@ -41,25 +41,9 @@ export default {
 </script>
 
 <style scoped>
-
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: 2rem;
-}
-
 .top-content {
     font-size: 1.5rem;
     font-weight: 500;
 }
 
-@media (max-width: 768px) {
-  .section {
-    width: 95%;
-    align-items: center;
-  }
-  .card-container {
-    justify-content: center;
-  }
-}
 </style>

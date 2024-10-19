@@ -69,26 +69,9 @@ export default {
 </script>
 
 <style scoped>
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: 2rem;
-}
-
 .slot-image {
     height: 7rem;
     margin-bottom: 1rem;
     object-fit: contain;
-}
-
-@media (max-width: 768px) {
-    .section {
-        width: 95%;
-        align-items: center;
-    }
-
-    .card-container {
-        justify-content: center;
-    }
 }
 </style>

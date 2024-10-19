@@ -48,21 +48,9 @@ export default {
 </script>
 
 <style scoped>
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: 2rem;
-}
-
 .top-image {
     height: 3rem;
     margin-bottom: 1rem;
     object-fit: contain;
-}
-
-@media (max-width: 768px) {
-  .card-container {
-    justify-content: center;
-  }
 }
 </style>

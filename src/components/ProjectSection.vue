@@ -112,9 +112,5 @@ export default {
 </script>
 
 <style scoped>
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: 2rem;
-}
+
 </style>
